@@ -12,9 +12,16 @@ const config = {
   entry: "./src/index.ts",
   output: {
     path: path.resolve(__dirname, "dist"),
+    filename: 'js/[chunkhash].bundle.js',
+    clean: true
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all'
+    }
   },
   devServer: {
-    open: true,
+    open: false,
     host: "localhost",
   },
   plugins: [
@@ -22,7 +29,9 @@ const config = {
       template: "./public/index.html",
     }),
 
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({
+      filename: 'css/[name].[hash].css'
+    }),
 
     // Add your plugins here
     // Learn more about plugins from https://webpack.js.org/configuration/plugins/
@@ -49,6 +58,12 @@ const config = {
       // Add your rules for custom modules here
       // Learn more about loaders from https://webpack.js.org/loaders/
     ],
+  },
+  resolve: {
+    extensions: ['.js', '.ts'],
+    alias: {
+      'src': path.resolve(__dirname, 'src/')
+    }
   },
 };
 
